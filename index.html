@@ -85,15 +85,8 @@
                 </canvas>
                 <script src="index.js"></script>
                 <script>
-                    function _onProgress(current, total) {
-                        if (total > 0) {
-                            if (current === total) {
-                            }
-                        }
-                    }
-
                     var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":34011072,"index.wasm":13788612},"focusCanvas":false,"gdnativeLibs":[]});
-                    engine.startGame({ onProgress: _onProgress }).then(() => {
+                    engine.startGame().then(() => {
                         const overlay = document.getElementById("scroll-overlay")
                         const coverOverlay = document.getElementById("cover-overlay")
 

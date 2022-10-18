@@ -57,6 +57,7 @@
                 const overlay = document.getElementById("scroll-overlay");
 
                 function scroller(event){
+                    console.log("ON WHEEL")
                     switch(event.deltaMode){
                         case 0: 		//DOM_DELTA_PIXEL		Chrome
                         overlay.scrollTop+=event.deltaY
@@ -86,6 +87,9 @@
                 })
 
                 document.onwheel = scroller;
+                document.ontouchmove = function(event) {
+                    console.log("ON TOUCH MOVE")
+                }
             }
         </script>
     </head>

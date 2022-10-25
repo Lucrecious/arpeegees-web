@@ -57,8 +57,17 @@
                 </canvas>
                 <script src="index.js"></script>
                 <script>
-                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":37830416,"index.wasm":13788612},"focusCanvas":false,"gdnativeLibs":[]});
+                    var turn_on_sounds = function() {
+                        var canvas = document.getElementById("canvas")
+                        var event = document.createEvent('MouseEvents')
+                        event.initEvent("mousedown", true, true)
+                        canvas.dispatchEvent(event)
+                    } 
+
+                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":37830656,"index.wasm":13788612},"focusCanvas":false,"gdnativeLibs":[]});
                     engine.startGame().then(() => {
+                        turn_on_sounds()
+
                         const overlay = document.getElementById("scroll-overlay")
                         const coverOverlay = document.getElementById("cover-overlay")
 

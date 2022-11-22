@@ -73,7 +73,7 @@
                         canvas.dispatchEvent(event)
                     } 
 
-                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":26693312,"index.wasm":13788612},"focusCanvas":false,"gdnativeLibs":[]});
+                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":26693344,"index.wasm":13788612},"focusCanvas":false,"gdnativeLibs":[]});
                     engine.startGame().then(() => {
                         turn_on_sounds()
 
@@ -89,7 +89,7 @@
                         // overlay.addEventListener('mouseup', (event) => {
                         //     var canvas = document.getElementById("canvas")
                         //     var mouse_event = create_mouse_event('mouseup', event)
-                        //     canvas.dispatchEvent(mouse_event)
+                        //     window.dispatchEvent(mouse_event)
                         // })
 
                         overlay.style.backgroundColor = "transparent";

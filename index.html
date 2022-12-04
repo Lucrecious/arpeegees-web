@@ -19,10 +19,8 @@
                 position: fixed;
                 pointer-events: all;
                 overflow-y: scroll;
-                /* width: 20px; */
                 top: 0;
                 left: 0;
-                /* left: calc(100% - 20px); */
                 right: 0;
                 bottom: 0;
                 z-index: 2;
@@ -35,19 +33,40 @@
             }
 
             #cover-overlay {
-                position: fixed;
+                position: absolute;
                 pointer-events: none;
-                top: 0;
                 left: 0;
+                top: 0;
                 right: 0;
                 bottom: 0;
-                z-index: 2;
-                background-color: #0d5e45;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                z-index: 3;
+                background-color: transparent;
             }
 
             #game {
                 z-index: 1;
             }
+
+            .center {
+                position: relative;
+                display: block;
+                margin: auto;
+                max-width: 50%;
+            }
+
+            #loadingbartext {
+                z-index: 4;
+            }
+
+            #loadingbar {
+                margin-top: -3.5%;
+                z-index: 3;
+            }
+
         </style>
     </head>
     <body>
@@ -57,49 +76,51 @@
                 </canvas>
                 <script src="index.js"></script>
                 <script>
-                    var create_mouse_event = function(eventName, otherEvent) {
-                        var event = document.createEvent('MouseEvent')
-                        event.initMouseEvent(eventName, true, true, window,
-                            otherEvent.detail, otherEvent.screenX, otherEvent.screenY, otherEvent.clientX, otherEvent.clientY,
-                            otherEvent.ctrlKey, otherEvent.altKey, otherEvent.shiftKey, otherEvent.metaKey,
-                            otherEvent.button, otherEvent.target)
-                        return event
+                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":27966640,"index.wasm":17132245},"focusCanvas":false,"gdnativeLibs":[]});
+                    const progressUpdates = [0.0, 0.1, 0.5, 0.9, .99]
+
+                    let updateProgress = function(percent) {
+                        let new_index = 0;
+                        for (let i = 0; i < progressUpdates.length; i++) {
+                            let percentBarrier = progressUpdates[i];
+                            if (percent < percentBarrier) {
+                                break;
+                            }
+                            new_index = i;
+                        }
+
+                        let new_image_src = `loadingbarbar${new_index}.png`
+                        let loadingbarImg = document.getElementById('loadingbar');
+                        if (new_image_src === loadingbarImg.src) {
+                            return;
+                        }
+
+                        console.log(`Percent done: ${percent} -> Image Src: ${new_image_src}`);
+                        loadingbarImg.src = new_image_src;
                     }
 
-                    var turn_on_sounds = function() {
-                        var canvas = document.getElementById("canvas")
-                        var event = document.createEvent('MouseEvents')
-                        event.initEvent("mousedown", true, true)
-                        canvas.dispatchEvent(event)
-                    } 
-
-                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":27237344,"index.wasm":17132245},"focusCanvas":false,"gdnativeLibs":[]});
-                    engine.startGame().then(() => {
-                        //turn_on_sounds()
-
+                    engine.startGame({
+                        'onProgress': function (current, total) {
+                            let finishedPercent = current / total;
+                            updateProgress(finishedPercent);
+                        }
+                    }).then(() => {
                         const overlay = document.getElementById("scroll-overlay")
                         const coverOverlay = document.getElementById("cover-overlay")
 
-                        // overlay.addEventListener('mousedown', (event) => {
-                        //     var canvas = document.getElementById("canvas")
-                        //     var mouse_event = create_mouse_event('mousedown', event)
-                        //     canvas.dispatchEvent(mouse_event)
-                        // })
-
-                        // overlay.addEventListener('mouseup', (event) => {
-                        //     var mouse_event = create_mouse_event('mouseup', event)
-                        //     window.dispatchEvent(mouse_event)
-                        // })
-
                         overlay.style.backgroundColor = "transparent";
-                        coverOverlay.style.backgroundColor = "transparent";
+                        coverOverlay.style.visibility = "hidden";
                         console.log("Arpeegees Game Loaded")
-                    })
+                    });
                 </script>
             </div>
-            <div id="cover-overlay">
-            </div>
             <div id="scroll-overlay">
+            </div>
+            <dev id="cover-overlay">
+                <div>
+                    <img src="loadingbartext.png" id="loadingbartext" class="center">
+                    <img src="loadingbarbar0.png" id="loadingbar" class="center">
+                </div>
             </div>
         </div>
     </body>

@@ -67,6 +67,14 @@
                 z-index: 3;
             }
 
+            #arpeegee-sprite {
+                position: absolute;
+                margin-top: -28%;
+                margin-left: 68%;
+                z-index: 5;
+                max-width: 20%;
+            }
+
         </style>
     </head>
     <body>
@@ -76,7 +84,7 @@
                 </canvas>
                 <script src="index.js"></script>
                 <script>
-                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":25644912,"index.wasm":17132245},"focusCanvas":false,"gdnativeLibs":[]});
+                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":25659168,"index.wasm":17132245},"focusCanvas":false,"gdnativeLibs":[]});
                     const progressUpdates = [0.0, 0.1, 0.5, 0.9, .99]
 
                     let updateProgress = function(percent) {
@@ -96,6 +104,10 @@
                         }
 
                         loadingbarImg.src = new_image_src;
+
+                        if (new_index === 4) {
+                            document.getElementById('arpeegee-sprite').src = 'bard_win.png'
+                        }
                     }
 
                     engine.startGame({
@@ -119,6 +131,8 @@
                 <div>
                     <img src="loadingbartext.png" id="loadingbartext" class="center">
                     <img src="loadingbarbar0.png" id="loadingbar" class="center">
+                    <img src="bard_idle.png" id="arpeegee-sprite" class="center">
+                    <link rel="preload" href="bard_win.png" as="image">
                     <link rel="preload" href="loadingbarbar1.png" as="image">
                     <link rel="preload" href="loadingbarbar2.png" as="image">
                     <link rel="preload" href="loadingbarbar3.png" as="image">

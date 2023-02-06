@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Battle of the Arpeegees</title>
+        <meta charset="UTF-8">
+        <meta name='viewport' content='width=device-width, user-scalable=no' />
+        <style>
+            #canvas {
+                display: block;
+                margin: 0;
+                color: white;
+            }
+
+            #canvas:focus {
+                outline: none;
+            }
+
+            #scroll-overlay {
+                position: fixed;
+                pointer-events: all;
+                overflow-y: scroll;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 2;
+                background-color: #0d5e45;
+                width:100%;
+                height: 100%;
+            }
+
+            #cover-overlay {
+                position: absolute;
+                pointer-events: none;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                z-index: 3;
+                background-color: #0d5e45;
+            }
+
+            #game {
+                z-index: 1;
+            }
+
+            .center {
+                position: relative;
+                display: block;
+                margin: auto;
+                max-width: 50%;
+            }
+
+            #loadingbartext {
+                z-index: 4;
+            }
+
+            #loadingbar {
+                margin-top: -3.5%;
+                z-index: 3;
+            }
+
+            #arpeegee-sprite {
+                position: absolute;
+                margin-top: -28%;
+                margin-left: 68%;
+                z-index: 5;
+                max-width: 20%;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <div id="game">
+                <canvas id="canvas">
+                </canvas>
+                <script src="game.js"></script>
+                <script>
+                    var engine = new Engine({"args":[],"canvasResizePolicy":2,"executable":"game","experimentalVK":false,"fileSizes":{"game.pck":30746464,"game.wasm":17132245},"focusCanvas":false,"gdnativeLibs":[]});
+                    const progressUpdates = [0.0, 0.1, 0.5, 0.9, .99]
+
+                    let updateProgress = function(percent) {
+                        let new_index = 0;
+                        for (let i = 0; i < progressUpdates.length; i++) {
+                            let percentBarrier = progressUpdates[i];
+                            if (percent < percentBarrier) {
+                                break;
+                            }
+                            new_index = i;
+                        }
+
+                        let new_image_src = `loadingbarbar${new_index}.png`
+                        let loadingbarImg = document.getElementById('loadingbar');
+                        if (new_image_src === loadingbarImg.src) {
+                            return;
+                        }
+
+                        loadingbarImg.src = new_image_src;
+
+                        if (new_index >= (progressUpdates.length - 1)) {
+                            document.getElementById('arpeegee-sprite').src = 'bard_win.png'
+                        }
+                    }
+
+                    engine.startGame({
+                        'onProgress': function (current, total) {
+                            let finishedPercent = current / total;
+                            updateProgress(finishedPercent);
+                        }
+                    }).then(() => {
+                        const overlay = document.getElementById("scroll-overlay")
+                        const coverOverlay = document.getElementById("cover-overlay")
+
+                        overlay.style.backgroundColor = "transparent";
+                        coverOverlay.style.visibility = "hidden";
+                        console.log("Arpeegees Game Loaded")
+                    });
+                </script>
+            </div>
+            <div id="scroll-overlay">
+            </div>
+            <dev id="cover-overlay">
+                <div>
+                    <img src="loadingbartext.png" id="loadingbartext" class="center">
+                    <img src="loadingbarbar0.png" id="loadingbar" class="center">
+                    <img src="bard_idle.png" id="arpeegee-sprite" class="center">
+                    <link rel="preload" href="bard_win.png" as="image">
+                    <link rel="preload" href="loadingbarbar1.png" as="image">
+                    <link rel="preload" href="loadingbarbar2.png" as="image">
+                    <link rel="preload" href="loadingbarbar3.png" as="image">
+                    <link rel="preload" href="loadingbarbar4.png" as="image">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

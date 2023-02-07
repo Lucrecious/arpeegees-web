@@ -77,6 +77,39 @@ max-width:90%;
 <div id="header">
   <iframe id="arpeegees-game-frame" scrolling="no" frameBorder="0" title="Arpeegees - The Game" src="game.html">
   </iframe>
+  <script type="text/javascript">
+    function getGameFrameIsVisible() {
+      var gameFrame = document.getElementById("arpeegees-game-frame");
+      var frameRect = gameFrame.getBoundingClientRect();
+      var frameRectMiddleY = frameRect.top + (frameRect.bottom - frameRect.top) / 2.0;
+
+      return frameRectMiddleY > 0;
+    }
+
+    var gameFrameIsVisible = false;
+    function setGameFrameIsVisible(value) {
+      if (gameFrameIsVisible == value) {
+        return;
+      }
+
+      gameFrameIsVisible = value;
+      let game = document.getElementById("arpeegees-game-frame").contentWindow;//.document.getElementById("game");
+      console.log(game);
+      if (gameFrameIsVisible) {
+        game.enterScreen();
+      } else {
+        game.exitScreen();
+      }
+    }
+
+    window.onload = (event) => {
+      setGameFrameIsVisible(getGameFrameIsVisible());
+    }
+
+    window.onscroll = (event) => {
+      setGameFrameIsVisible(getGameFrameIsVisible());
+    }
+  </script>
 </div>
 
   <div id="intro-box" class="container">

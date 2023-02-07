@@ -111,7 +111,6 @@ max-width:90%;
 
       gameFrameIsVisible = value;
       let game = document.getElementById("arpeegees-game-frame").contentWindow;//.document.getElementById("game");
-      console.log(game);
       if (gameFrameIsVisible) {
         game.enterScreen();
       } else {
@@ -130,16 +129,50 @@ max-width:90%;
         percent = Math.min(percent, 1.0);
         let ratio = percent * 30.0;
         gradient.style.bottom = `${-ratio}%`;
-        console.log(gradient.style.bottom);
       }
+    }
+
+    function updateHeaderGrassColor(color) {
+      let header = document.getElementById("header");
+
+      header.style.borderBottom = "1px solid " + color;
+      header.style.boxShadow = "inset 0px -4px " + color;
+    }
+
+    function getTimeUrlSuffix() {
+      const daySuffix = "";
+      const eveningSuffix = "-evening";
+      const nightSuffix = "-night";
+
+      let date = new Date();
+      let suffix = "";
+      if (date.getHours() >= 6 && date.getHours() < 17)  {
+          suffix = daySuffix;
+      } else if (date.getHours() >= 17 && date.getHours() < 22) {
+          suffix = eveningSuffix;
+      } else {
+          suffix = nightSuffix;
+      }
+
+      return suffix;
+    }
+
+    function updateShopTopGrass() {
+      let suffix = getTimeUrlSuffix();
     }
 
     window.onload = (event) => {
       setGameFrameIsVisible(getGameFrameIsVisible());
-      let game = document.getElementById("arpeegees-game-frame").contentWindow;
-      game.beginLoading();
 
       updateGradientPosition();
+      let game = document.getElementById("arpeegees-game-frame").contentWindow;
+      document.body.style.background = game.getGrassColor();
+
+      updateHeaderGrassColor(game.getGrassColor());
+
+      updateShopTopGrass();
+
+      game.beginLoading();
     }
 
     window.onscroll = (event) => {
@@ -253,9 +286,8 @@ max-width:90%;
       margin-bottom: 10px;
     }
 
-
     #scroll-bg {
-      background: url(images/new-shop-top.jpg) center bottom no-repeat;
+      background: url(images/new-shop-top.png) center bottom no-repeat;
       background-size: 200% auto;
       overflow-x:hidden;
     }

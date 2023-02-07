@@ -41,15 +41,12 @@ max-width:90%;
   box-shadow: inset 0px -4px #168B67;
 }
 
-.game {
+#arpeegees-game-frame {
+  overflow: hidden;
   display:flex;
   flex-direction: column;
   width: 100%;
   height: 720px;
-}
-
-iframe {
-  overflow: hidden;
 }
 
 #header img{
@@ -78,19 +75,8 @@ iframe {
 </style>
 <div>
 <div id="header">
-  <iframe class="game" scrolling="no" frameBorder="0"
-      title="Arpeegees"
-      src="game.html">
+  <iframe id="arpeegees-game-frame" scrolling="no" frameBorder="0" title="Arpeegees - The Game" src="game.html">
   </iframe>
-  <div id="header">
-  </div>
-<!-- <div class="container">
-     <img class="intro-image" alt="Arpeegees" src="images/introduction-image-stickers.png" srcset="images/introduction-image-stickers@2x.png 2x">
-     <div id="header-details">
-<img id="title" src="images/stickers-intro-logo.png" srcset="images/stickers-intro-logo@2x.png 2x">
-<a href="#new-shop" class="blue-button"><span>Purchase Below</span></a>
-</div>
-</div> -->
 </div>
 
   <div id="intro-box" class="container">

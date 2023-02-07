@@ -72,18 +72,35 @@ max-width:90%;
   margin-top:-120px;
 }
 }
+
+#game-gradient {
+  pointer-events: none;
+  height: 35%;
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+  background: linear-gradient(to top, black, rgba(0, 0, 0, 0));
+  z-index: 10;
+}
 </style>
+
+<div id="game-gradient"></div>
+
 <div>
 <div id="header">
   <iframe id="arpeegees-game-frame" scrolling="no" frameBorder="0" title="Arpeegees - The Game" src="game.html">
   </iframe>
   <script type="text/javascript">
-    function getGameFrameIsVisible() {
+    function getGameFrameVisibilityScroll() {
       var gameFrame = document.getElementById("arpeegees-game-frame");
       var frameRect = gameFrame.getBoundingClientRect();
       var frameRectMiddleY = frameRect.top + (frameRect.bottom - frameRect.top) / 2.0;
 
-      return frameRectMiddleY > 0;
+      return frameRectMiddleY;
+    }
+
+    function getGameFrameIsVisible() {
+      return getGameFrameVisibilityScroll() > 0;
     }
 
     var gameFrameIsVisible = false;
@@ -102,12 +119,32 @@ max-width:90%;
       }
     }
 
+    function updateGradientPosition() {
+      let gradient = document.getElementById("game-gradient");
+      let gameScroll = getGameFrameVisibilityScroll();
+
+      if (gameScroll > 0) {
+        gradient.style.bottom = 0;
+      } else {
+        let percent = -gameScroll / 200.0;
+        percent = Math.min(percent, 1.0);
+        let ratio = percent * 30.0;
+        gradient.style.bottom = `${-ratio}%`;
+        console.log(gradient.style.bottom);
+      }
+    }
+
     window.onload = (event) => {
       setGameFrameIsVisible(getGameFrameIsVisible());
+      let game = document.getElementById("arpeegees-game-frame").contentWindow;
+      game.beginLoading();
+
+      updateGradientPosition();
     }
 
     window.onscroll = (event) => {
       setGameFrameIsVisible(getGameFrameIsVisible());
+      updateGradientPosition();
     }
   </script>
 </div>
@@ -282,6 +319,7 @@ max-width:90%;
     }
 
   </style>
+
   <section id="scroll-bg">
     <div id="scroll">
       <div id="scroll-top">

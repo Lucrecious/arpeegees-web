@@ -32,13 +32,19 @@ width:auto;
 max-width:90%;
 }
 
-#header{
+#game {
   background-color:#FFFFFF;
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size:100% auto, auto 60%, 100% auto;
   border-bottom:1px solid #168B67;
-  box-shadow: inset 0px -4px #168B67;
+  box-shadow: inset 0px 0px #168B67;
+}
+
+#header {
+  background-color: #FFFFFF;
+  width: 100%;
+  padding: 50px 0;
 }
 
 #arpeegees-game-frame {
@@ -49,23 +55,11 @@ max-width:90%;
   height: 720px;
 }
 
-#header img{
-  display:block;
-  margin:0 auto;
-}
-#header img#title{
-  margin:20px auto;
-}
-#header-details{
-    max-width:60%;
-    display:block;
-    margin:0 auto;
-}
 #intro-box{
   margin-bottom:40px;
 }
 @media only screen and (min-width: 747px){
-  #header{
+  #game {
   }
 #intro-box{
   margin-bottom:80px;
@@ -85,9 +79,12 @@ max-width:90%;
 </style>
 
 <div id="game-gradient"></div>
-
 <div>
+
 <div id="header">
+  <img alt="Arpeegees Logo" src="images/logo.png" srcset="images/logo@2x.png 2x" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
+</div>
+<div id="game">
   <iframe id="arpeegees-game-frame" scrolling="no" frameBorder="0" title="Arpeegees - The Game" src="game.html">
   </iframe>
   <script type="text/javascript">
@@ -132,33 +129,16 @@ max-width:90%;
       }
     }
 
-    function updateHeaderGrassColor(color) {
+    function updateGrassColor(color) {
+      let game = document.getElementById("game");
+
+      game.style.borderBottom = "1px solid " + color;
+      game.style.boxShadow = "inset 0px 0px " + color;
+    }
+
+    function updateTopGrassColor(color) {
       let header = document.getElementById("header");
-
-      header.style.borderBottom = "1px solid " + color;
-      header.style.boxShadow = "inset 0px -4px " + color;
-    }
-
-    function getTimeUrlSuffix() {
-      const daySuffix = "";
-      const eveningSuffix = "-evening";
-      const nightSuffix = "-night";
-
-      let date = new Date();
-      let suffix = "";
-      if (date.getHours() >= 6 && date.getHours() < 17)  {
-          suffix = daySuffix;
-      } else if (date.getHours() >= 17 && date.getHours() < 22) {
-          suffix = eveningSuffix;
-      } else {
-          suffix = nightSuffix;
-      }
-
-      return suffix;
-    }
-
-    function updateShopTopGrass() {
-      let suffix = getTimeUrlSuffix();
+      header.style.backgroundColor = color;
     }
 
     window.onload = (event) => {
@@ -168,9 +148,24 @@ max-width:90%;
       let game = document.getElementById("arpeegees-game-frame").contentWindow;
       document.body.style.background = game.getGrassColor();
 
-      updateHeaderGrassColor(game.getGrassColor());
+      updateGrassColor(game.getGrassColor());
+      updateTopGrassColor(game.getTopGrassColor());
 
-      updateShopTopGrass();
+      let gameCanvas = game.document.getElementById("canvas");
+      gameCanvas.addEventListener("gameloaded", (event) => {
+        let gameFrame = document.getElementById("arpeegees-game-frame");
+
+        let gameFrameTop = gameFrame.getBoundingClientRect().top;
+        let targetPosition = gameFrameTop + window.pageYOffset;
+
+        console.log(gameFrameTop);
+        if (gameFrameTop > 0) {
+          window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+          });
+        }
+      });
 
       game.beginLoading();
     }
@@ -1087,12 +1082,12 @@ margin:70px 0;
           </div>
         </div>
         <div class="item">
-          <img alt="Arpeegees" src="images/product-stickers-wave1.png" srcset="images/product-stickers-wave1@2x.png 2x">
+          <img alt="Arpeegees" src="images/product-pins-wave3.png" srcset="images/product-pins-wave3@2x.png 2x">
           <div>
-            <div class="price" data-text="$10">$10</div>
+            <div class="price" data-text="$25">$25</div>
           </div>
-          <h6>Stickers</h6>
-          <p>Wave 1</p>
+          <h6>Pins</h6>
+          <p>Wave 3</p>
           <div class="blue-button">
        <div id='product-component-1593536815652'></div>
 <script type="text/javascript">
@@ -1122,7 +1117,7 @@ margin:70px 0;
     });
     ShopifyBuy.UI.onReady(client).then(function (ui) {
       ui.createComponent('product', {
-        id: '4483368288299',
+        id: '7057603493931',
         node: document.getElementById('product-component-1593536815652'),
         moneyFormat: '%24%7B%7Bamount%7D%7D',
      options: {
@@ -1367,6 +1362,8 @@ margin:70px 0;
             <a href="arpeegees_checklist.pdf" target="_blank" class="inline-button"> <?php echo file_get_contents('images/pointer.svg'); ?> PRINT YOUR WAVE 1 CHECKLIST</a>
             <br>
              <a href="arpeegees_checklist_2.pdf" target="_blank" class="inline-button"> <?php echo file_get_contents('images/pointer.svg'); ?> PRINT YOUR WAVE 2 CHECKLIST</a>
+            <br>
+             <a href="arpeegees_checklist_3.pdf" target="_blank" class="inline-button"> <?php echo file_get_contents('images/pointer.svg'); ?> PRINT YOUR WAVE 3 CHECKLIST</a>
           </div>
         </article>
       </section>

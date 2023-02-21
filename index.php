@@ -55,6 +55,12 @@ max-width:90%;
   height: 720px;
 }
 
+/* @media only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+    #arpeegees-game-frame {
+        height: 1440px;
+    }
+}V */
+
 #intro-box{
   margin-bottom:40px;
 }
@@ -85,8 +91,7 @@ max-width:90%;
   <img alt="Arpeegees Logo" src="images/logo.png" srcset="images/logo@2x.png 2x" style="display: block; margin: 0 auto; max-width: 100%; height: auto;">
 </div>
 <div id="game">
-  <iframe id="arpeegees-game-frame" scrolling="no" frameBorder="0" title="Arpeegees - The Game" src="game.html">
-  </iframe>
+  <iframe id="arpeegees-game-frame" scrolling="no" frameBorder="0" title="Arpeegees - The Game" src="game.html"></iframe>
   <script type="text/javascript">
     function getGameFrameVisibilityScroll() {
       var gameFrame = document.getElementById("arpeegees-game-frame");

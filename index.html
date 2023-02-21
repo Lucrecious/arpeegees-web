@@ -123,9 +123,9 @@ max-width:90%;
     function getGameFrameVisibilityScroll() {
       var gameFrame = document.getElementById("arpeegees-game-frame");
       var frameRect = gameFrame.getBoundingClientRect();
-      var frameRectMiddleY = frameRect.top + (frameRect.bottom - frameRect.top) / 2.0;
+      var bottom = frameRect.top + (frameRect.bottom - frameRect.top) - (720.0 / 2.0);
 
-      return frameRectMiddleY;
+      return bottom;
     }
 
     function getGameFrameIsVisible() {

@@ -187,7 +187,12 @@
                             const coverOverlay = document.getElementById("cover-overlay")
 
                             overlay.style.backgroundColor = "transparent";
-                            //overlay.style.visibility = "hidden";
+                            const isMobileSafari = /iP(ad|od|hone)/i.test(navigator.userAgent) && /WebKit/i.test(navigator.userAgent);
+                            if (isMobileSafari) {
+                                overlay.style.visibility = "hidden";
+                            } else {
+                            }
+
                             coverOverlay.style.visibility = "hidden";
 
                             const canvas = document.getElementById("canvas");

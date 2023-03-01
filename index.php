@@ -157,6 +157,14 @@ max-width:90%;
       updateGrassColor(game.getGrassColor());
       updateTopGrassColor(game.getTopGrassColor());
 
+
+      const isMobileSafari = /iP(ad|od|hone)/i.test(navigator.userAgent) && /WebKit/i.test(navigator.userAgent);
+      
+      if (isMobileSafari) {
+        game.cant_play_on_safari();
+        return;
+      }
+
       let gameCanvas = game.document.getElementById("canvas");
       gameCanvas.addEventListener("gameloaded", (event) => {
         let gameFrame = document.getElementById("arpeegees-game-frame");
